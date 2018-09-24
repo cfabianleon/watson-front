@@ -1,0 +1,9 @@
+.w150{
+    width: 100%;
+}
+
+.resultado{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
