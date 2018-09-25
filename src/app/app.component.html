@@ -7,8 +7,7 @@
       <div class="card">
         <div class="card-body">
           <input (change)="seleccionImagen($event.target.files[0])" class="form-control-file" type="file"><br>
-          <button (click)="cambiarImagen()" class="btn btn-primary btn-lg btn-block" [disabled]="!imagen" type="button">SUBIR
-            IMAGEN
+          <button (click)="cambiarImagen()" class="btn btn-primary btn-lg btn-block" [disabled]="!imagen" type="button">ENVIAR
           </button>
         </div>
       </div>
@@ -22,30 +21,33 @@
         <div class="card-body align-center">
           <h4 class="card-title" style="text-align: center;"> Fotografía del usuario</h4>
           <hr>
-          <img class="w150" [src]="traerImagen()" alt="">
+          <div *ngIf="carga == true" class="centrar" style="text-align: center">
+            <i  class="fa fa-sync fa-spin fa-2x"></i>
+          </div>
+          <img *ngIf="!carga" class="w150" [src]="traerImagen()" alt="">
         </div>
       </div>
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-4" >
       <div class="card mt-2">
-        <div class="card-body align-center">
-          <h4 class="card-title" style="text-align: center;"> Resultado</h4>
-          <hr>
-          <div *ngFor="let resu of resultado">
+        <div class="card-body align-center" *ngFor="let resultado_ of resultado2; let i = index">
+          <h4 class="card-title" style="text-align: center;"> Cara {{i+1}}</h4>
+          <!-- <hr> -->
+          <!-- <div *ngFor="let resu of resultado_">
             <h6 class="card-subtitle mb-2"><span class="badge badge-pill badge-primary">{{resu.class}}</span> - {{resu.score
               * 100 | number}}%</h6>
-          </div>
+          </div> -->
           <!-- edad -->
           <hr *ngIf="resultado2">
           <div *ngIf="resultado2" class="resultado">
             <span class="badge badge-pill badge-primary">Edad: </span>
-            <h6 class="card-subtitle mb-2 ml-2" style="margin-bottom: 0!important"> {{resultado2[0]?.age.min}} a {{resultado2[0]?.age.max}}</h6>
+            <h6 class="card-subtitle mb-2 ml-2" style="margin-bottom: 0!important"> {{resultado_?.age.min}} a {{resultado_?.age.max}}</h6>
           </div>
           <!-- genero -->
           <hr *ngIf="resultado2">
           <div *ngIf="resultado2" class="resultado">
             <span class="badge badge-pill badge-primary">Genero: </span>
-            <h6 class="card-subtitle mb-2 ml-2" style="margin-bottom: 0!important"> {{genero(resultado2[0]?.gender.gender)}}</h6>
+            <h6 class="card-subtitle mb-2 ml-2" style="margin-bottom: 0!important"> {{genero(resultado_?.gender.gender)}}</h6>
           </div>
         </div>
       </div>

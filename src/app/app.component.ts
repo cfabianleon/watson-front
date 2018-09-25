@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-root",
@@ -7,40 +8,32 @@ import { HttpClient } from "@angular/common/http";
   styleUrls: ["./app.component.css"]
 })
 export class AppComponent {
-
   imagen: File;
   public resultados;
   resultado;
   resultado2;
   resultado3;
   img;
+  carga;
 
+  constructor(public http: HttpClient, private toastr: ToastrService) {}
 
-
-
-
-
-  constructor(public http: HttpClient) {}
-
-  seleccionImagen( archivo: File){
+  seleccionImagen(archivo: File) {
     console.log(archivo);
-    if (!archivo){
+    if (!archivo) {
       this.imagen = null;
       return;
     }
     this.imagen = archivo;
   }
 
-  genero(dato){
-    if(dato === 'MALE'){
-      return "Masculino"
-    }else{
-      return "Femenino"
+  genero(dato) {
+    if (dato === "MALE") {
+      return "Masculino";
+    } else {
+      return "Femenino";
     }
   }
-
-  
-
 
   subirImagen(imagen: File) {
     return new Promise((resolve, reject) => {
@@ -51,7 +44,7 @@ export class AppComponent {
       xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
           if (xhr.status === 200) {
-            console.log("Imagen subida");
+            
             resolve(xhr.response);
           } else {
             console.log("Fallo la subida");
@@ -59,29 +52,36 @@ export class AppComponent {
           }
         }
       };
-      let url = "http://localhost:3000/vrecognition";
-      xhr.open('POST',url, true);
+      let url = "https://proyecto-watson.herokuapp.com/vrecognition";
+      xhr.open("POST", url, true);
       xhr.send(formData);
     });
   }
 
-  traerImagen(){
-    let url = `http://localhost:3000/imagenes/imagen/${this.img}`;
+  traerImagen() {
+    let url = `https://proyecto-watson.herokuapp.com/imagenes/imagen/${
+      this.img
+    }`;
     return url;
-    
   }
 
   cambiarImagen() {
+    this.carga = true;
+
     this.subirImagen(this.imagen)
-      .then((resp:any) => {
+      .then((resp: any) => {
         this.resultados = JSON.parse(resp);
         this.resultado = this.resultados.modelo_1.images[0].classifiers[0].classes;
         this.resultado2 = this.resultados.modelo_2.images[0].faces;
         this.img = this.resultados.modelo_1.images[0].image;
-        console.log(this.resultado2);
+        console.log(this.resultado);
         this.traerImagen();
+        this.toastr.success("Imagen cargada", "Oli!");
+        this.carga = false;
+        console.log(this.carga);
       })
       .catch(resp => {
+        this.toastr.error("Error en la carga", resp);
         console.log(resp);
       });
   }
