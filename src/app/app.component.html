@@ -32,11 +32,12 @@
       <div class="card mt-2">
         <div class="card-body align-center" *ngFor="let resultado_ of resultado2; let i = index">
           <h4 class="card-title" style="text-align: center;"> Cara {{i+1}}</h4>
-          <!-- <hr> -->
-          <!-- <div *ngFor="let resu of resultado_">
+          <hr>
+          <hr>
+          <div *ngFor="let resu of resultado">
             <h6 class="card-subtitle mb-2"><span class="badge badge-pill badge-primary">{{resu.class}}</span> - {{resu.score
               * 100 | number}}%</h6>
-          </div> -->
+          </div>
           <!-- edad -->
           <hr *ngIf="resultado2">
           <div *ngIf="resultado2" class="resultado">

@@ -52,14 +52,14 @@ export class AppComponent {
           }
         }
       };
-      let url = "https://proyecto-watson.herokuapp.com/vrecognition";
+      let url = "https://new-node-app.mybluemix.net/vrecognition";
       xhr.open("POST", url, true);
       xhr.send(formData);
     });
   }
 
   traerImagen() {
-    let url = `https://proyecto-watson.herokuapp.com/imagenes/imagen/${
+    let url = `https://new-node-app.mybluemix.net/imagenes/imagen/${
       this.img
     }`;
     return url;
